@@ -88,3 +88,6 @@ Weekend Jul 20
 Whole weekend Jul 25 - 26
 Weekend Aug 1
 Weekend Aug 10
+
+2837 lines of code
+20 hours
