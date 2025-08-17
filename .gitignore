@@ -1,0 +1,28 @@
+# Node
+node_modules/
+
+# Vite/React build
+web/dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python venv
+data_analysis/venv/
+
+# Ignore environment files
+.env
+.env.*
