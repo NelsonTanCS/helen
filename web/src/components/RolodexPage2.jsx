@@ -5,7 +5,7 @@ const RolodexPage2 = ({ replaySignal = 1 }) => {
     'Thank you for being amazing',
     'Here\'s to many more adventures together!',
     'You have made my life infinitely more fun and exciting',
-    'I love you at least as much as I love Shelly'
+    'Shelly and I love you very much'
   ];
 
   const [index, setIndex] = useState(0);
