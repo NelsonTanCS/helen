@@ -57,17 +57,20 @@ function RolodexMessages({
   }, [index, show, onFirstPage]);
 
   return (
-    <div className="mt-8 flex items-center justify-center relative select-none" style={{minHeight: '7rem', minWidth: '100%', width: '100%'}}>
+    <div className="mt-8 flex items-center justify-center relative select-none" style={{minHeight: '7rem', width: '100vw', maxWidth: '100vw'}}>
       <div
         className={messageClass}
         style={{
           transition: 'all 0.35s',
-          wordBreak: 'break-word',
-          fontSize: '3vw',
+          wordBreak: 'keep-all',
+          fontSize: 'clamp(2rem, 6vw, 4rem)',
           fontWeight: 'bold',
           maxWidth: '90vw',
-          padding: '0 1rem',
-          lineHeight: 1.1,
+          padding: '0 2rem',
+          lineHeight: 1.4,
+          whiteSpace: 'nowrap',
+          textAlign: 'center',
+          overflow: 'visible'
         }}
       >
         {messages[index]}

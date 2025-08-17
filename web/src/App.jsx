@@ -7,6 +7,13 @@ import RolodexMessages from './components/RolodexMessages';
 import ShowDownArrowWrapper from './components/ShowDownArrowWrapper';
 import TextingStatsPage from './components/TextingStatsPage';
 
+
+
+import CollageStatsPage from './components/CollageStatsPage';
+import TimelinePage from './components/TimelinePage';
+import GeoGuessrPage from './components/GeoGuessrPage';
+import RolodexPage2 from './components/RolodexPage2';
+
 const rolodexMessages = [
   'Happy Birthday Helen',
   'May all your dreams come true this year!'
@@ -41,12 +48,34 @@ function App() {
         <TextingStatsPage />
       </section>
       {/* Page 3 */}
-      <section className="min-h-screen flex flex-col justify-center items-center snap-start snap-always px-4 relative" style={{ scrollSnapAlign: 'start', background: 'linear-gradient(135deg, #6bc1ff 0%, #b36cff 100%)' }}>
-        <div className="flex flex-col items-center justify-center w-full h-full">
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#fff', marginBottom: '1.5rem', textShadow: '0 2px 8px #0008' }}>A Wish from All of Us</h2>
-          <p style={{ fontSize: '1.5rem', maxWidth: 600, textAlign: 'center', color: '#fff', background: 'rgba(0,0,0,0.18)', borderRadius: 12, padding: '1.5rem 2rem', boxShadow: '0 2px 16px #0002' }}>
-            You are loved and celebrated by everyone around you. Have a fantastic birthday and a wonderful year ahead!
-          </p>
+      <section className="min-h-screen flex flex-col justify-center items-center snap-start snap-always px-0 relative" style={{ scrollSnapAlign: 'start', padding: 0, background: 'transparent' }}>
+        <CollageStatsPage />
+      </section>
+      {/* Page 4: Timeline */}
+      <section className="min-h-[200vh] flex flex-col justify-start items-center snap-start snap-always px-0 relative" style={{ scrollSnapAlign: 'start', padding: 0, background: 'transparent' }}>
+        <TimelinePage />
+      </section>
+      {/* Page 5: GeoGuessr */}
+      <section className="min-h-screen snap-start snap-always relative w-full" style={{ scrollSnapAlign: 'start', padding: 0, background: 'transparent' }}>
+        <GeoGuessrPage />
+      </section>
+      {/* Page 6: Final Rolodex Messages */}
+      <section 
+        className="min-h-screen snap-start snap-always px-4 relative" 
+        style={{ 
+          scrollSnapAlign: 'start', 
+          position: 'relative',
+          background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <PatternedBackground />
+        <AnimatedRibbons replaySignal={replaySignal} key={`ribbons-page6-${replaySignal}`} />
+        <div className="flex justify-center items-center">
+          <RolodexPage2 replaySignal={replaySignal} />
         </div>
       </section>
     </div>

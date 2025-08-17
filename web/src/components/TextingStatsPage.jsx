@@ -21,7 +21,7 @@ const imageCaptions = {
 
 const stats = [
     { label: '🗃️ Total entries', value: '28,902', color: '#ffb36b' },
-    { label: '📅 First text', value: '2024-11-04', color: '#6bc1ff' },
+    { label: '📅 First text', value: 'Nov 4th, 2024', color: '#6bc1ff' },
     { label: '📆 Total number of days', value: '279', color: '#f7d06c' },
     { label: '📈 Percentage of days with messages', value: '96.77%', color: '#ff6b6b' },
     { label: '💬 Average messages per day', value: '103.59', color: '#6bffb3' },
