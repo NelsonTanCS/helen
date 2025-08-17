@@ -1,6 +1,7 @@
 
 
 import React, { useState } from 'react';
+import { getAssetPath } from '../utils/assets';
 
 // Timeline events grouped by month (no background pattern)
 const timelineData = [
@@ -182,7 +183,7 @@ function TimelineEventCard({ event, setExpandedImg, setExpandedVideo, align }) {
       {/* Only render image if it exists */}
       {event.image && (
         <img
-          src={`/images/${event.image}`}
+          src={getAssetPath(`images/${event.image}`)}
           alt={event.label}
           style={{ 
             width: 80, 
@@ -211,7 +212,7 @@ function TimelineEventCard({ event, setExpandedImg, setExpandedVideo, align }) {
           cursor: 'pointer'
         }}>
           <video
-            src={`/videos/${event.video}`}
+            src={getAssetPath(`videos/${event.video}`)}
             style={{ 
               width: '100%', 
               height: '100%', 
@@ -631,7 +632,7 @@ function TimelinePage() {
           zIndex: 50
         }} onClick={() => setExpandedImg(null)}>
           <img
-            src={`/images/${expandedImg}`}
+            src={getAssetPath(`images/${expandedImg}`)}
             alt="expanded"
             style={{
               maxWidth: '90vw',
@@ -659,7 +660,7 @@ function TimelinePage() {
           zIndex: 50
         }} onClick={() => setExpandedVideo(null)}>
           <video
-            src={`/videos/${expandedVideo}`}
+            src={getAssetPath(`videos/${expandedVideo}`)}
             controls
             autoPlay
             style={{

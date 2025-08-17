@@ -1,6 +1,7 @@
 
 
 import React, { useEffect, useRef, useState } from 'react';
+import { getAssetPath } from '../utils/assets';
 
 // Simple count up hook for animating numbers, always animates when 'start' transitions to true
 function useCountUp(target, start, duration = 1200) {
@@ -159,7 +160,7 @@ export default function CollageStatsPage() {
               {[...rowImages, ...rowImages].map((img, i) => (
                 <img
                   key={i}
-                  src={`/images/${img}`}
+                  src={getAssetPath(`images/${img}`)}
                   alt="collage"
                   style={{
                     width: 'auto',

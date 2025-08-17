@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getAssetPath } from '../utils/assets';
 
 const GeoGuessrPage = () => {
   // Game data - you'll need to update these coordinates based on debug logs
@@ -282,7 +283,7 @@ const GeoGuessrPage = () => {
               Where is this location?
             </h3>
             <img
-              src={`/images/${gameRounds[currentRound].image}`}
+              src={getAssetPath(`images/${gameRounds[currentRound].image}`)}
               alt={`Round ${currentRound + 1}`}
               style={{
                 width: '100%',
@@ -301,7 +302,7 @@ const GeoGuessrPage = () => {
             borderRadius: '16px',
             padding: '15px',
             boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-            height: '60%',
+            height: '100%',
             display: 'flex',
             flexDirection: 'column'
           }}>
@@ -323,7 +324,7 @@ const GeoGuessrPage = () => {
               minHeight: '200px'
             }}>
               <img
-                src="/images/map.jpg"
+                src={getAssetPath("images/map.jpg")}
                 alt="Map"
                 onClick={handleMapClick}
                 style={{

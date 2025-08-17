@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getAssetPath } from '../utils/assets';
 
 
 // List of image filenames in the data folder
@@ -94,7 +95,7 @@ return (
             {imageFiles.map((img, i) => (
                 <div key={img} style={{ margin: 8, cursor: 'pointer', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 12px #0002', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <img
-                        src={`/data/${img}`}
+                        src={getAssetPath(`images/${img}`)}
                         alt={img.replace(/_/g, ' ').replace('.png', '').replace(/\b\w/g, l => l.toUpperCase())}
                         style={{ width: 220, height: 140, objectFit: 'cover', borderRadius: 12, transition: 'transform 0.2s', boxShadow: magnified === img ? '0 4px 24px #b36cff88' : '0 2px 12px #0002' }}
                         onClick={() => setMagnified(img)}
@@ -121,7 +122,7 @@ return (
                 }}
             >
                 <img
-                    src={`/data/${magnified}`}
+                    src={getAssetPath(`images/${magnified}`)}
                     alt={magnified.replace(/_/g, ' ').replace('.png', '')}
                     style={{ maxWidth: '90vw', maxHeight: '80vh', borderRadius: 18, boxShadow: '0 8px 32px #0008', background: '#fff' }}
                 />

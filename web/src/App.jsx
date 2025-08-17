@@ -18,8 +18,7 @@ const rolodexMessages = [
   'Happy Birthday Helen',
   'You\'ve made this the best year of my life',
   'I hope I\'ve made you half as happy as you\'ve made me',
-  'Every day with you is a perfect dream come true',
-  'Let\'s take a look back at all the wonderful memories we\'ve created together'
+  'Let\'s look back at all the memories we\'ve created together'
 ];
 
 
