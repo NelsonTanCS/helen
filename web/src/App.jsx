@@ -16,7 +16,10 @@ import RolodexPage2 from './components/RolodexPage2';
 
 const rolodexMessages = [
   'Happy Birthday Helen',
-  'May all your dreams come true this year!'
+  'You\'ve made this the best year of my life',
+  'I hope you know how happy you\'ve made me',
+  'Every day with you is a perfect dream',
+  'Let\'s take a look back at all the wonderful memories we\'ve created together'
 ];
 
 
