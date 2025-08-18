@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 
 import AnimatedRibbons from './components/AnimatedRibbons';
@@ -12,7 +13,6 @@ import CollageStatsPage from './components/CollageStatsPage';
 import TimelinePage from './components/TimelinePage';
 import GeoGuessrPage from './components/GeoGuessrPage';
 import RolodexPage2 from './components/RolodexPage2';
-import CatPage from './components/CatPage';
 
 const rolodexMessages = [
   'Happy Birthday Helen',
@@ -62,10 +62,10 @@ function App() {
         <GeoGuessrPage />
       </section>
       {/* Page 6: Final Rolodex Messages */}
-      <section
-        className="min-h-screen snap-start snap-always px-4 relative"
-        style={{
-          scrollSnapAlign: 'start',
+      <section 
+        className="min-h-screen snap-start snap-always px-4 relative" 
+        style={{ 
+          scrollSnapAlign: 'start', 
           position: 'relative',
           background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)',
           display: 'flex',
@@ -79,10 +79,6 @@ function App() {
         <div className="flex justify-center items-center">
           <RolodexPage2 replaySignal={replaySignal} />
         </div>
-      </section>
-      {/* Page 7: Cat Page - Final Page */}
-      <section className="min-h-screen snap-start snap-always relative w-full" style={{ scrollSnapAlign: 'start' }}>
-        <CatPage />
       </section>
     </div>
   );
