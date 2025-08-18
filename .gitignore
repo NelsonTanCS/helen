@@ -26,3 +26,9 @@ data_analysis/venv/
 # Ignore environment files
 .env
 .env.*
+
+# Personal data files
+data/text_with_helen_merged_sorted.xml
+data/text_with_helen_merged_sorted_clean.xml
+data/text_with_helen_merged_sorted_clean.json
+data/message_1.json
