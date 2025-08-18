@@ -62,13 +62,13 @@ function RolodexMessages({
         className={messageClass}
         style={{
           transition: 'all 0.35s',
-          wordBreak: 'keep-all',
+          wordBreak: 'break-word',
           fontSize: 'clamp(2rem, 6vw, 4rem)',
           fontWeight: 'bold',
           maxWidth: '90vw',
           padding: '0 2rem',
           lineHeight: 1.4,
-          whiteSpace: 'nowrap',
+          whiteSpace: 'normal',
           textAlign: 'center',
           overflow: 'visible'
         }}

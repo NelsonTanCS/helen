@@ -2,36 +2,36 @@ import React, { useState } from 'react';
 import { getAssetPath } from '../utils/assets';
 
 const GeoGuessrPage = () => {
-  // Game data - you'll need to update these coordinates based on debug logs
+  // Game data - coordinates are now percentages (0-100) of image width/height
   const gameRounds = [
     {
       id: 1,
-      image: 'first_handyman.jpg', // Place your round images in public/images/
-      correctAnswer: { x: 603, y: 338 }, // Update these based on debug logs
+      image: 'first_handyman.jpg',
+      correctAnswer: { x: 76.1, y: 55.9 }, // Percentage positions (0-100)
       description: 'Round 1'
     },
     {
       id: 2,
       image: 'image6.jpg',
-      correctAnswer: { x: 323, y: 192 },
+      correctAnswer: { x: 41.0, y: 26.5 },
       description: 'Round 2'
     },
     {
       id: 3,
       image: 'image19.jpg',
-      correctAnswer: { x: 553, y: 546 },
+      correctAnswer: { x: 69.8, y: 97.6 },
       description: 'Round 3'
     },
     {
       id: 4,
       image: 'bouquet.jpg',
-      correctAnswer: { x: 499, y: 433 },
+      correctAnswer: { x: 62.8, y: 76.5 },
       description: 'Round 4'
     },
     {
       id: 5,
       image: 'eating_out.jpg',
-      correctAnswer: { x: 636, y: 401 },
+      correctAnswer: { x: 80.1, y: 68.9 },
       description: 'Round 5'
     }
   ];
@@ -42,7 +42,7 @@ const GeoGuessrPage = () => {
   const [gameComplete, setGameComplete] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Calculate distance between two points
+  // Calculate distance between two points (now using percentages)
   const calculateDistance = (point1, point2) => {
     const dx = point1.x - point2.x;
     const dy = point1.y - point2.y;
@@ -51,10 +51,10 @@ const GeoGuessrPage = () => {
 
   // Calculate score based on distance (max 5000 points)
   const calculateScore = (distance) => {
-    // Max distance for 0 points (adjust based on your map size)
-    const maxDistance = 500;
+    // Max distance for 0 points (percentage-based, diagonal of image is ~141%)
+    const maxDistance = 50; // 50% of image diagonal
     // Perfect score threshold (very close)
-    const perfectThreshold = 10;
+    const perfectThreshold = 2; // 2% of image
     
     if (distance <= perfectThreshold) return 5000;
     if (distance >= maxDistance) return 0;
@@ -64,16 +64,44 @@ const GeoGuessrPage = () => {
     return Math.max(0, score);
   };
 
+  // Convert pixel coordinates to percentage coordinates
+  const pixelToPercentage = (pixelCoords, imageRect) => {
+    return {
+      x: (pixelCoords.x / imageRect.width) * 100,
+      y: (pixelCoords.y / imageRect.height) * 100
+    };
+  };
+
+  // Convert percentage coordinates to pixel coordinates
+  const percentageToPixel = (percentCoords, imageRect) => {
+    return {
+      x: (percentCoords.x / 100) * imageRect.width,
+      y: (percentCoords.y / 100) * imageRect.height
+    };
+  };
+
   // Handle map click to place/move pin
   const handleMapClick = (event) => {
     const rect = event.target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const pixelX = event.clientX - rect.left;
+    const pixelY = event.clientY - rect.top;
     
-    // Debug log for setting correct answers
-    console.log(`PIN DROPPED: x: ${Math.round(x)}, y: ${Math.round(y)}`);
+    // Convert to percentage coordinates
+    const percentageCoords = pixelToPercentage(
+      { x: pixelX, y: pixelY },
+      { width: rect.width, height: rect.height }
+    );
     
-    setUserPin({ x, y });
+    // Debug log for setting correct answers (now shows both pixel and percentage)
+    console.log(`PIN DROPPED: 
+      Pixels: x: ${Math.round(pixelX)}, y: ${Math.round(pixelY)}
+      Percentage: x: ${percentageCoords.x.toFixed(1)}, y: ${percentageCoords.y.toFixed(1)}`);
+    
+    // Store both pixel (for display) and percentage (for comparison) coordinates
+    setUserPin({ 
+      pixel: { x: pixelX, y: pixelY },
+      percentage: percentageCoords
+    });
     setSubmitted(false);
   };
 
@@ -82,10 +110,13 @@ const GeoGuessrPage = () => {
     if (!userPin) return;
     
     const correctAnswer = gameRounds[currentRound].correctAnswer;
-    const distance = calculateDistance(userPin, correctAnswer);
+    // Compare using percentage coordinates for scale-agnostic distance
+    const distance = calculateDistance(userPin.percentage, correctAnswer);
     const score = calculateScore(distance);
     
-    console.log(`Round ${currentRound + 1}: Distance: ${distance.toFixed(2)}, Score: ${score}`);
+    console.log(`Round ${currentRound + 1}: 
+      Distance: ${distance.toFixed(2)}% 
+      Score: ${score}`);
     
     const newScores = [...roundScores, score];
     setRoundScores(newScores);
@@ -259,7 +290,7 @@ const GeoGuessrPage = () => {
           display: 'grid',
           gridTemplateColumns: '300px 1fr',
           gap: '20px',
-          alignItems: 'stretch',
+          alignItems: 'start',
           flex: '1',
           minHeight: 0
         }}>
@@ -294,6 +325,18 @@ const GeoGuessrPage = () => {
                 backgroundColor: '#f8fafc'
               }}
             />
+            
+            {/* Instructions */}
+            <div style={{
+              padding: '10px',
+              background: 'rgba(59, 130, 246, 0.1)',
+              borderRadius: '12px',
+              fontSize: '12px',
+              color: '#374151',
+              marginTop: '15px'
+            }}>
+              <strong>How to play:</strong> Click anywhere on the map to place your guess pin. You can move it by clicking elsewhere. Click Submit when you're satisfied with your guess! Sorry, no zooming :(
+            </div>
           </div>
 
           {/* Map and Controls */}
@@ -302,7 +345,6 @@ const GeoGuessrPage = () => {
             borderRadius: '16px',
             padding: '15px',
             boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-            height: '100%',
             display: 'flex',
             flexDirection: 'column'
           }}>
@@ -320,8 +362,13 @@ const GeoGuessrPage = () => {
             <div style={{
               position: 'relative',
               marginBottom: '10px',
-              flex: '1',
-              minHeight: '200px'
+              width: '100%',
+              maxWidth: '1100px', // Increased from 800px - makes container taller
+              aspectRatio: '16/10', // Fixed aspect ratio based on your map image
+              border: '2px solid #e5e7eb',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              margin: '0 auto 10px auto'
             }}>
               <img
                 src={getAssetPath("images/map.jpg")}
@@ -330,11 +377,10 @@ const GeoGuessrPage = () => {
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'contain',
-                  borderRadius: '12px',
+                  objectFit: 'cover',
                   cursor: 'crosshair',
-                  border: '2px solid #e5e7eb',
-                  backgroundColor: '#f8fafc'
+                  backgroundColor: '#f8fafc',
+                  display: 'block'
                 }}
               />
               
@@ -342,8 +388,8 @@ const GeoGuessrPage = () => {
               {userPin && (
                 <div style={{
                   position: 'absolute',
-                  left: userPin.x - 12,
-                  top: userPin.y - 24,
+                  left: userPin.pixel.x - 12,
+                  top: userPin.pixel.y - 24,
                   width: '24px',
                   height: '24px',
                   background: '#ef4444',
@@ -367,32 +413,42 @@ const GeoGuessrPage = () => {
               )}
               
               {/* Correct Answer Pin (shown after submit) */}
-              {submitted && (
-                <div style={{
-                  position: 'absolute',
-                  left: gameRounds[currentRound].correctAnswer.x - 12,
-                  top: gameRounds[currentRound].correctAnswer.y - 24,
-                  width: '24px',
-                  height: '24px',
-                  background: '#10b981',
-                  borderRadius: '50% 50% 50% 0',
-                  transform: 'rotate(-45deg)',
-                  border: '2px solid white',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                  zIndex: 10
-                }}>
+              {submitted && (() => {
+                const mapImg = document.querySelector('img[alt="Map"]');
+                if (!mapImg) return null;
+                const rect = mapImg.getBoundingClientRect();
+                const correctPixel = percentageToPixel(
+                  gameRounds[currentRound].correctAnswer,
+                  { width: rect.width, height: rect.height }
+                );
+                
+                return (
                   <div style={{
                     position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%) rotate(45deg)',
-                    width: '8px',
-                    height: '8px',
-                    background: 'white',
-                    borderRadius: '50%'
-                  }}></div>
-                </div>
-              )}
+                    left: correctPixel.x - 12,
+                    top: correctPixel.y - 24,
+                    width: '24px',
+                    height: '24px',
+                    background: '#10b981',
+                    borderRadius: '50% 50% 50% 0',
+                    transform: 'rotate(-45deg)',
+                    border: '2px solid white',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                    zIndex: 10
+                  }}>
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%) rotate(45deg)',
+                      width: '8px',
+                      height: '8px',
+                      background: 'white',
+                      borderRadius: '50%'
+                    }}></div>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Bottom Controls - Anchored to bottom */}
@@ -449,21 +505,10 @@ const GeoGuessrPage = () => {
                     color: '#6b7280',
                     marginTop: '3px'
                   }}>
-                    Distance: {calculateDistance(userPin, gameRounds[currentRound].correctAnswer).toFixed(0)}px
+                    Distance: {calculateDistance(userPin.percentage, gameRounds[currentRound].correctAnswer).toFixed(1)}%
                   </div>
                 </div>
               )}
-
-              {/* Instructions */}
-              <div style={{
-                padding: '10px',
-                background: 'rgba(59, 130, 246, 0.1)',
-                borderRadius: '12px',
-                fontSize: '12px',
-                color: '#374151'
-              }}>
-                <strong>How to play:</strong> Click anywhere on the map to place your guess pin. You can move it by clicking elsewhere. Click Submit when you're satisfied with your guess! Sorry, no zooming :(
-              </div>
             </div>
           </div>
         </div>
